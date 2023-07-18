@@ -1,30 +1,39 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import moviesRoutes from './routes/movies.js';
-import castsRoutes from './routes/casts.js';
-import genresRoutes from './routes/genres.js';
+import express from 'express'
+import fs from 'fs'
+import bodyParser from 'body-parser'
+import movieRouter from './routers/movies'
+import uploadRouter from './routers/upload'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const app = express();
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = dirname(__filename);
 
-mongoose.connect('mongodb://localhost/movie_database', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const app = express()
+const port = 8080
+
+// app.use(express.json())
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+// Static
+app.use(express.static('src/public'))
+
+// Routing
+app.get('/', function (req, res) {
+    // const html = fs.readFileSync(join(__dirname, '/pages/home.html'), 'utf-8')
+    // res.send(html)
+    res.end(__dirname)
 })
-    .then(() => {
-        console.log('Connected to MongoDB');
-    })
-    .catch((error) => {
-        console.error('MongoDB connection error:', error);
-    });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Router
+app.use("/", movieRouter)
+app.use("/cast", castRouter)
+// app.use("/upload", uploadRouter)
 
-app.use('/movies', moviesRoutes);
-app.use('/casts', castsRoutes);
-app.use('/genres', genresRoutes);
-
-const port = 8080;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+app.listen(port, function () {
+    console.log(`Server is running on ${port}`);
+})
