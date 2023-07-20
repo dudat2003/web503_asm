@@ -1,10 +1,13 @@
 import express from 'express'
 import fs from 'fs'
 import bodyParser from 'body-parser'
-import movieRouter from './routers/movies'
+import moviesRouter from './routers/moviesRouter'
+import castsRouter from './routers/castsRouter'
+import genresRouter from './routers/genresRouter'
 import uploadRouter from './routers/upload'
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -30,8 +33,10 @@ app.get('/', function (req, res) {
 })
 
 // Router
-app.use("/", movieRouter)
-app.use("/cast", castRouter)
+app.use("/movies", moviesRouter)
+app.use("/casts", castsRouter)
+app.use("/genres", genresRouter)
+
 // app.use("/upload", uploadRouter)
 
 app.listen(port, function () {
