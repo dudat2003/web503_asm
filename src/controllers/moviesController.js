@@ -103,9 +103,9 @@ export const getMovieById = function (req, res) {
     const { id } = req.params
     const movie = movies.find(m => m.id == id)
     if (movie) {
-        res.status(200).send(movie);
+        res.status(200).send(movie)
     } else {
-        res.status(404).send({ error: 'Movie not found' });
+        res.status(404).send({ error: 'Movie not found' })
     }
     res.end()
 }
@@ -134,7 +134,7 @@ export const updateMovie = (req, res) => {
 
         res.status(200).send(movie)
     } else {
-        res.status(404).send({ error: 'Movie not found' });
+        res.status(404).send({ error: 'Movie not found' })
     }
     res.end()
 
@@ -145,10 +145,10 @@ export const deleteMovie = (req, res) => {
     const index = movies.findIndex(m => m.id == id)
     if (index != -1) {
         movies.splice(index, 1)
-        console.log(movies);
+        console.log(movies)
         res.status(200).json(movies)
     } else {
-        res.status(404).send({ error: 'Movie not found' });
+        res.status(404).send({ error: 'Movie not found' })
     }
     res.end()
 }
@@ -157,149 +157,150 @@ export const deleteMovie = (req, res) => {
 //Cast
 export const getAllCasts = (req, res) => {
     const casts = movies.reduce((result, movie) => {
-        return result.concat(movie.cast);
-    }, []);
-    res.status(200).send(casts);
+        return result.concat(movie.cast)
+    }, [])
+    res.status(200).send(casts)
     res.end()
 
 }
 
 
 export const getCastByMovieId = (req, res) => {
-    const { id } = req.params;
-    const movie = movies.find((m) => m.id == id);
+    const { id } = req.params
+    const movie = movies.find((m) => m.id == id)
 
     if (movie) {
-        res.status(200).json(movie.cast);
+        res.status(200).json(movie.cast)
     } else {
-        res.status(404).json({ error: "Movie not found" });
+        res.status(404).json({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const addCastToMovie = (req, res) => {
-    const { id } = req.params;
-    const { cast } = req.body;
-    const movie = movies.find((m) => m.id == id);
+    const { id } = req.params
+    const { cast } = req.body
+    const movie = movies.find((m) => m.id == id)
     if (movie) {
-        movie.cast.push(...cast);
-        res.status(201).send(movie.cast);
+        movie.cast.push(...cast)
+        res.status(201).send(movie.cast)
     } else {
-        res.status(404).send({ error: "Movie not found" });
+        res.status(404).send({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const updateCastInMovie = (req, res) => {
-    const { id, castName } = req.params;
-    const { newCastName } = req.body;
-    const movie = movies.find((m) => m.id == id);
+    const { id, castName } = req.params
+    const { newCastName } = req.body
+    const movie = movies.find((m) => m.id == id)
     if (movie) {
-        const castIndex = movie.cast.findIndex((c) => c == castName);
+        const castIndex = movie.cast.findIndex((c) => c == castName)
         if (castIndex !== -1) {
-            movie.cast[castIndex] = newCastName;
-            res.status(200).send(movie.cast);
+            movie.cast[castIndex] = newCastName
+            res.status(200).send(movie.cast)
         } else {
-            res.status(404).send({ error: "Cast not found" });
+            res.status(404).send({ error: "Cast not found" })
         }
     } else {
-        res.status(404).send({ error: "Movie not found" });
+        res.status(404).send({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const deleteCast = (req, res) => {
     const { id } = req.params
-    const movie = movies.find((m) => m.id == id);
+    const movie = movies.find((m) => m.id == id)
     if (movie) {
-        const { castName } = req.body;
+        const { castName } = req.body
         if (!castName) {
-            res.status(400).json({ error: "Missing castName in request body" });
-            return;
+            res.status(400).json({ error: "Missing castName in request body" })
+            return
         }
 
-        const castIndex = movie.cast.findIndex((c) => c == castName);
+        const castIndex = movie.cast.findIndex((c) => c == castName)
         if (castIndex !== -1) {
-            movie.cast.splice(castIndex, 1);
-            res.status(200).send(movie.cast);
+            movie.cast.splice(castIndex, 1)
+            res.status(200).send(movie.cast)
         } else {
-            res.status(404).json({ error: "Cast not found" });
+            res.status(404).json({ error: "Cast not found" })
         }
     } else {
-        res.status(404).json({ error: "Movie not found" });
+        res.status(404).json({ error: "Movie not found" })
     }
-};
+}
 
 //Genres
 export const getAllGenres = (req, res) => {
     const genres = movies.reduce((result, movie) => {
-        return result.concat(movie.genres);
-    }, []);
-    res.status(200).send(genres);
+        return result.concat(movie.genres)
+    }, [])
+    res.status(200).send(genres)
     res.end()
 }
 
 export const getGenreById = (req, res) => {
-    const { id } = req.params;
-    const movie = movies.find((g) => g.id == id);
+    const { id } = req.params
+    const movie = movies.find((g) => g.id == id)
 
     if (movie) {
-        res.status(200).json(movie.genres);
+        res.status(200).json(movie.genres)
     } else {
-        res.status(404).json({ error: "Movie not found" });
+        res.status(404).json({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const addGenreToMovie = (req, res) => {
-    const { id } = req.params;
-    const { genre } = req.body;
-    const movie = movies.find((g) => g.id == id);
+    const { id } = req.params
+    const { genre } = req.body
+    const movie = movies.find((g) => g.id == id)
     if (movie) {
-        movie.genres.push(genre);
-        res.status(201).send(movie.genres);
+        movie.genres.push(genre)
+        res.status(201).send(movie.genres)
     } else {
-        res.status(404).send({ error: "Movie not found" });
+        res.status(404).send({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const updateGenreInMovie = (req, res) => {
-    const { id, genreName } = req.params;
-    const { newGenreName } = req.body;
-    const movie = movies.find((m) => m.id == id);
+    const { id, genreName } = req.params
+    const { newGenreName } = req.body
+    const movie = movies.find((m) => m.id == id)
     if (movie) {
-        const genreIndex = movie.genres.findIndex((g) => g == genreName);
+        const genreIndex = movie.genres.findIndex((g) => g == genreName)
         if (genreIndex !== -1) {
-            movie.genres[genreIndex] = newGenreName;
-            res.status(200).send(movie.genres);
+            movie.genres[genreIndex] = newGenreName
+            res.status(200).send(movie.genres)
         } else {
-            res.status(404).send({ error: "Genre not found" });
+            res.status(404).send({ error: "Genre not found" })
         }
     } else {
-        res.status(404).send({ error: "Movie not found" });
+        res.status(404).send({ error: "Movie not found" })
     }
     res.end()
 }
 
 export const deleteGenre = (req, res) => {
     const { id } = req.params
-    const movie = movies.find((m) => m.id == id);
+    const movie = movies.find((m) => m.id == id)
     if (movie) {
-        const { genreName } = req.body;
+        const { genreName } = req.body
         if (!genreName) {
-            res.status(400).json({ error: "Missing genreName in request body" });
-            return;
+            res.status(400).json({ error: "Missing genreName in request body" })
+            return
         }
 
-        const genreIndex = movie.genres.findIndex((g) => g == genreName);
+        const genreIndex = movie.genres.findIndex((g) => g == genreName)
         if (genreIndex !== -1) {
-            movie.genres.splice(genreIndex, 1);
-            res.status(200).send(movie.genres);
+            movie.genres.splice(genreIndex, 1)
+            res.status(200).send(movie.genres)
         } else {
-            res.status(404).json({ error: "Genre not found" });
+            res.status(404).json({ error: "Genre not found" })
         }
     } else {
-        res.status(404).json({ error: "Movie not found" });
+        res.status(404).json({ error: "Movie not found" })
     }
+    res.end()
 }
