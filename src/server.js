@@ -7,6 +7,8 @@ import genresRouter from './routers/genresRouter'
 import uploadRouter from './routers/upload'
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import mongoose from 'mongoose'
+import userRouter from './routers/userRouter'
 
 
 export const __filename = fileURLToPath(import.meta.url);
@@ -34,11 +36,17 @@ app.get('/', function (req, res) {
 
 // Router
 app.use("/movies", moviesRouter)
-app.use("/casts", castsRouter)
-app.use("/genres", genresRouter)
+app.use("/auth", userRouter)
+// app.use("/upload", uploadRouter)
+// app.use("/casts", castsRouter)
+// app.use("/genres", genresRouter)
 
 // app.use("/upload", uploadRouter)
+
+mongoose.connect("mongodb://127.0.0.1:27017/web503")
+    .then(() => console.log("Connect successfully"))
 
 app.listen(port, function () {
     console.log(`Server is running on ${port}`);
 })
+
